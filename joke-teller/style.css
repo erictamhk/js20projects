@@ -22,3 +22,12 @@ body {
   background-position: left center;
   background-repeat: no-repeat;
 }
+
+/* Media Query: Tablet or PC */
+/* medium and large screen size */
+@media (min-width: 601px) {
+}
+
+/* large screen size */
+@media (min-width: 993px) {
+}

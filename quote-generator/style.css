@@ -104,7 +104,8 @@ body {
     transform: rotate(360deg);
   }
 }
-/* Media Query: Tablet or Smaller */
+
+/* Media Query: Tablet or PC */
 /* large screen size */
 @media (min-width: 993px) {
   .quote-container {

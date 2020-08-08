@@ -43,7 +43,7 @@ h1 {
   width: 100%;
 }
 
-/* Media Query: Tablet or Smaller */
+/* Media Query: Tablet or PC */
 /* medium and large screen size */
 @media (min-width: 601px) {
   .image-container {
