@@ -1,3 +1,6 @@
+const button = document.getElementById("button");
+const audioElement = document.getElementById("audio");
+
 // VoiceRSS Javascript SDK
 const VoiceRSS = {
   speech: function (e) {
@@ -101,3 +104,18 @@ const VoiceRSS = {
     throw "The browser does not support HTTP request";
   },
 };
+
+function test() {
+  VoiceRSS.speech({
+    key: "dd70c58aaa4445fe962b30df5ef9d954",
+    src: "Hello, world!",
+    hl: "en-us",
+    v: "Linda",
+    r: 0,
+    c: "mp3",
+    f: "44khz_16bit_stereo",
+    ssml: false,
+  });
+}
+
+test();
