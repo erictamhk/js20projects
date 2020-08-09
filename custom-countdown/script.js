@@ -13,7 +13,7 @@ const completeBtn = document.getElementById("complete-button");
 
 let countdownTitle = "";
 let countdownDate = "";
-let countdownValue = Date;
+let countdownValue = new Date().getTime();
 let countdownActive;
 let savedCountdown;
 
