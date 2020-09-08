@@ -181,6 +181,11 @@ select {
   position: relative;
   top: -2.5px;
   border-radius: 5px;
+  background: transparent;
+}
+
+select:focus {
+  outline: none;
 }
 
 select > option {
