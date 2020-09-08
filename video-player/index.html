@@ -27,6 +27,7 @@
       <video
         src="https://pixabay.com/videos/download/video-31377_tiny.mp4?attachment"
         class="video"
+        id="video"
         playsinline
       ></video>
       <!-- Show Controls -->
@@ -34,8 +35,8 @@
         <!-- Controls Container -->
         <div class="controls-container">
           <!-- Progress Bar -->
-          <div class="progress-range" title="Seek">
-            <div class="progress-bar"></div>
+          <div class="progress-range" title="Seek" id="progress-range">
+            <div class="progress-bar" id="progress-bar"></div>
           </div>
           <div class="control-group">
             <!-- Left Controls -->
@@ -49,8 +50,12 @@
                 <div class="volume-icon">
                   <i class="fas fa-volume-up" title="Mute" id="volume-icon"></i>
                 </div>
-                <div class="volume-range" title="Change Volume">
-                  <div class="volume-bar"></div>
+                <div
+                  class="volume-range"
+                  title="Change Volume"
+                  戈木="volume-range"
+                >
+                  <div class="volume-bar" id="volume-bar"></div>
                 </div>
               </div>
             </div>
@@ -72,11 +77,11 @@
               </div>
               <!-- Time -->
               <div class="time">
-                <span class="time-elapsed">00:00 /</span>
-                <span class="time-duration">2:38</span>
+                <span class="time-elapsed" id="time-elapsed">00:00 /</span>
+                <span class="time-duration" id="time-duration">2:38</span>
               </div>
               <!-- Fullscreen -->
-              <div class="fullscreen">
+              <div class="fullscreen" id="fullscreen">
                 <i class="fas fa-expand"></i>
               </div>
             </div>
