@@ -1,3 +1,5 @@
+import { startConfetti, stopConfetti, removeConfetti } from "./confetti.js";
+
 const playerScoreEl = document.getElementById("playerScore");
 const playerChoiceEl = document.getElementById("playerChoice");
 const computerScoreEl = document.getElementById("computerScore");
@@ -153,6 +155,8 @@ function select(playerChoice) {
       break;
   }
 }
+
+window.select = select;
 
 resetIcon.addEventListener("click", resetAll);
 resetAll();
