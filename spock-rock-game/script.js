@@ -16,6 +16,8 @@ const computerScissors = document.getElementById("computerScissors");
 const computerLizard = document.getElementById("computerLizard");
 const computerSpock = document.getElementById("computerSpock");
 
+const resetIcon = document.getElementById("resetIcon");
+
 const allGameIcons = document.querySelectorAll(".far");
 
 const choices = {
@@ -26,7 +28,7 @@ const choices = {
   spock: { name: "Spock", defeats: ["scissors", "rock"] },
 };
 
-let playerScoreNumer = 0;
+let playerScoreNumber = 0;
 let computerScoreNumber = 0;
 let computerChoice = "";
 
@@ -35,6 +37,19 @@ function resetSelected() {
   allGameIcons.forEach((icon) => {
     icon.classList.remove("selected");
   });
+}
+
+// Reset Score & playerChoice/ComputerChoice
+function resetAll() {
+  resetSelected();
+  playerScoreNumber = 0;
+  computerScoreNumber = 0;
+  computerChoice = "";
+  playerScoreEl.textContent = playerScoreNumber;
+  computerScoreEl.textContent = computerScoreNumber;
+  playerChoiceEl.textContent = "";
+  computerChoiceEl.textContent = "";
+  resultText.textContent = "";
 }
 
 // Random computer choice
@@ -61,8 +76,8 @@ function updateScore(playerChoice) {
     const choice = choices[playerChoice];
     if (choice.defeats.indexOf(computerChoice) > -1) {
       resultText.textContent = "You Won!";
-      playerScoreNumer++;
-      playerScoreEl.textContent = playerScoreNumer;
+      playerScoreNumber++;
+      playerScoreEl.textContent = playerScoreNumber;
     } else {
       resultText.textContent = "You Lost!";
       computerScoreNumber++;
@@ -135,3 +150,6 @@ function select(playerChoice) {
       break;
   }
 }
+
+resetIcon.addEventListener("click", resetAll);
+resetAll();
