@@ -22,6 +22,7 @@ const playAgainBtn = document.querySelector(".play-again");
 let questionAmount = 0;
 let equationsArray = [];
 let playerGuessArray = [];
+let bestScoreArray = [];
 
 // Game Page
 let firstNumber = 0;
@@ -38,6 +39,51 @@ let finalTime = 0;
 
 // Scroll
 let valueY = 0;
+
+// Refresh Splash Page Best Scores
+function bestScoresToDOM() {
+  bestScores.forEach((bestScore, index) => {
+    const bestScoreEl = bestScore;
+    bestScoreEl.textContent = `${parseFloat(
+      bestScoreArray[index].bestScore
+    ).toFixed(1)}s`;
+  });
+}
+
+// Check Local Storage for Best Scores, set BestScoreArray
+function getSavedBestScores() {
+  if (localStorage.getItem("bestScores")) {
+    bestScoreArray = JSON.parse(localStorage.bestScores);
+  } else {
+    bestScoreArray = [
+      { questions: 10, bestScore: 0 },
+      { questions: 25, bestScore: 0 },
+      { questions: 50, bestScore: 0 },
+      { questions: 99, bestScore: 0 },
+    ];
+    localStorage.setItem("bestScores", JSON.stringify(bestScoreArray));
+  }
+  bestScoresToDOM();
+}
+
+// Update the best score array
+function updateBestScore() {
+  bestScoreArray.forEach((score, index) => {
+    // Select correct Best Score to update
+    if (questionAmount === score.questions) {
+      // Return Best Score as number with one decimal
+      const savedBestScore = Number(bestScoreArray[index].bestScore);
+      // Update if the new final score is less or replacing zero
+      if (savedBestScore === 0 || savedBestScore > finalTime) {
+        bestScoreArray[index].bestScore = finalTime;
+      }
+    }
+  });
+  // Update Splash Page
+  bestScoresToDOM();
+  // Save to Local Storage
+  localStorage.setItem("bestScores", JSON.stringify(bestScoreArray));
+}
 
 // Reset Game
 function resetGame() {
@@ -78,6 +124,7 @@ function scoresToDOM() {
   finalTimeEl.textContent = `${finalTime.toFixed(1)}s`;
   baseTimeEl.textContent = `Base Time: ${baseTime}s`;
   penaltyTimeEl.textContent = `Penalty: +${penaltyTime}s`;
+  updateBestScore();
   showScorePage();
 }
 
@@ -270,7 +317,7 @@ function getRadioValue() {
       radioValue = radioInput.value;
     }
   });
-  return radioValue;
+  return parseInt(radioValue);
 }
 
 // Form that decides amount of questions
@@ -299,3 +346,4 @@ startForm.addEventListener("click", () => {
 startForm.addEventListener("submit", selectQuestionAmount);
 //gamePage.addEventListener("click", startTimer);
 resetGame();
+getSavedBestScores();
