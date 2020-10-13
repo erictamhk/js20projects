@@ -35,10 +35,51 @@ let timePlayed = 0;
 let baseTime = 0;
 let penaltyTime = 0;
 let finalTime = 0;
-let finalTimeDisplay = "0.0s";
 
 // Scroll
 let valueY = 0;
+
+// Reset Game
+function resetGame() {
+  gamePage.addEventListener("click", startTimer);
+  questionAmount = 0;
+  equationsArray = [];
+  playerGuessArray = [];
+  valueY = 0;
+  playAgainBtn.hidden = true;
+
+  radioContainers.forEach((radioEl) => {
+    // Remove Selected Label Styling
+    radioEl.classList.remove("selected-label");
+    radioEl.children[1].checked = false;
+  });
+}
+
+function playAgain() {
+  resetGame();
+  splashPage.hidden = false;
+  scorePage.hidden = true;
+}
+
+// Show Score Page
+function showScorePage() {
+  // Show Play Again Button after 1 second
+  setTimeout(() => {
+    playAgainBtn.hidden = false;
+  }, 1000);
+  scorePage.hidden = false;
+  gamePage.hidden = true;
+}
+
+// Format & Display Time in DOM
+function scoresToDOM() {
+  baseTime = timePlayed.toFixed(1);
+  penaltyTime = penaltyTime.toFixed(1);
+  finalTimeEl.textContent = `${finalTime.toFixed(1)}s`;
+  baseTimeEl.textContent = `Base Time: ${baseTime}s`;
+  penaltyTimeEl.textContent = `Penalty: +${penaltyTime}s`;
+  showScorePage();
+}
 
 // Stop Timer, Process Results, go to Score Page
 function checkTime() {
@@ -69,6 +110,7 @@ function checkTime() {
       "penaltyTime",
       penaltyTime
     );
+    scoresToDOM();
   }
 }
 
@@ -255,4 +297,5 @@ startForm.addEventListener("click", () => {
 
 // Event Listeners
 startForm.addEventListener("submit", selectQuestionAmount);
-gamePage.addEventListener("click", startTimer);
+//gamePage.addEventListener("click", startTimer);
+resetGame();
