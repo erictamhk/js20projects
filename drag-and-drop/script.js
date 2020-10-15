@@ -3,7 +3,7 @@ const saveItemBtns = document.querySelectorAll(".solid");
 const addItemContainers = document.querySelectorAll(".add-container");
 const addItems = document.querySelectorAll(".add-item");
 // Item Lists
-const listColumn = document.querySelectorAll(".drag-item-list");
+const listColumns = document.querySelectorAll(".drag-item-list");
 const backlogList = document.getElementById("backlog-list");
 const progressList = document.getElementById("progress-list");
 const completeList = document.getElementById("complete-list");
@@ -63,6 +63,9 @@ function createItemEl(columnEl, column, item, index) {
   listEl.textContent = item;
   listEl.draggable = true;
   listEl.setAttribute("ondragstart", "drag(event)");
+  listEl.contentEditable = true;
+  listEl.id = `${column}_${index}`;
+  listEl.setAttribute("onfocusout", `updateItem(${index},${column})`);
   // Append
   columnEl.appendChild(listEl);
 }
@@ -75,47 +78,78 @@ function updateDOM() {
   }
   // Backlog Column
   backlogList.textContent = "";
+  backlogListArray = filterArray(backlogListArray);
   backlogListArray.forEach((backlogItem, index) => {
     createItemEl(backlogList, 0, backlogItem, index);
   });
   // Progress Column
   progressList.textContent = "";
+  progressListArray = filterArray(progressListArray);
   progressListArray.forEach((progressItem, index) => {
-    createItemEl(progressList, 0, progressItem, index);
+    createItemEl(progressList, 1, progressItem, index);
   });
   // Complete Column
   completeList.textContent = "";
+  completeListArray = filterArray(completeListArray);
   completeListArray.forEach((completeItem, index) => {
-    createItemEl(completeList, 0, completeItem, index);
+    createItemEl(completeList, 2, completeItem, index);
   });
   // On Hold Column
   onHoldList.textContent = "";
+  onHoldListArray = filterArray(onHoldListArray);
   onHoldListArray.forEach((onHoldItem, index) => {
-    createItemEl(onHoldList, 0, onHoldItem, index);
+    createItemEl(onHoldList, 3, onHoldItem, index);
   });
   // Run getSavedColumns only once, Update Local Storage
   updatedOnLoad = true;
   updateSavedColumns();
 }
 
+// return array by the column number
+function returnArray(col) {
+  switch (col) {
+    case 0:
+      return backlogListArray;
+      break;
+    case 1:
+      return progressListArray;
+      break;
+    case 2:
+      return completeListArray;
+      break;
+    case 3:
+      return onHoldListArray;
+      break;
+    default:
+      return [];
+      break;
+  }
+}
+// Filter Array
+function filterArray(array) {
+  const filteredArray = array.filter((item) => item !== null && item !== "");
+  return filteredArray;
+}
+
+// Update Item - Delete if necessary, or update Array value
+function updateItem(idx, col) {
+  const selectedArray = returnArray(col);
+  const selectedColumnEl = listColumns[col].children;
+  const selectedText = selectedColumnEl[idx].textContent;
+  if (!selectedText) {
+    delete selectedArray[idx];
+  } else {
+    selectedArray[idx] = selectedText;
+  }
+  updateDOM();
+}
+
 // Add Item to Column
 function addToColumn(col) {
   const itemText = addItems[col].textContent;
   addItems[col].textContent = "";
-  switch (col) {
-    case 0:
-      backlogListArray.push(itemText);
-      break;
-    case 1:
-      progressListArray.push(itemText);
-      break;
-    case 2:
-      completeListArray.push(itemText);
-      break;
-    case 3:
-      onHoldListArray.push(itemText);
-      break;
-  }
+  const selectedArray = returnArray(col);
+  selectedArray.push(itemText);
   updateDOM();
 }
 
@@ -169,20 +203,20 @@ function allowDrop(e) {
 function drop(e) {
   e.preventDefault();
   // Remove Background Color/Padding
-  listColumn.forEach((col) => {
+  listColumns.forEach((col) => {
     col.classList.remove("over");
   });
   // Add Item to Column
-  const parent = listColumn[currentColumn];
+  const parent = listColumns[currentColumn];
   parent.appendChild(draggedItem);
   rebuildArrays();
 }
 
 function dropEnter(column) {
-  listColumn.forEach((col) => {
+  listColumns.forEach((col) => {
     col.classList.remove("over");
   });
-  listColumn[column].classList.add("over");
+  listColumns[column].classList.add("over");
   currentColumn = column;
 }
 
