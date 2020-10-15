@@ -95,6 +95,43 @@ function updateDOM() {
   });
   // Run getSavedColumns only once, Update Local Storage
   updatedOnLoad = true;
+  updateSavedColumns();
+}
+
+// Add Item to Column
+function addToColumn(col) {
+  const itemText = addItems[col].textContent;
+  addItems[col].textContent = "";
+  switch (col) {
+    case 0:
+      backlogListArray.push(itemText);
+      break;
+    case 1:
+      progressListArray.push(itemText);
+      break;
+    case 2:
+      completeListArray.push(itemText);
+      break;
+    case 3:
+      onHoldListArray.push(itemText);
+      break;
+  }
+  updateDOM();
+}
+
+// Show Add Item Input Box
+function showInputBox(col) {
+  addBtns[col].style.visibility = "hidden";
+  saveItemBtns[col].style.display = "flex";
+  addItemContainers[col].style.display = "flex";
+}
+
+// Hide Add Item Input Box
+function hideInputBox(col) {
+  addBtns[col].style.visibility = "visible";
+  saveItemBtns[col].style.display = "none";
+  addItemContainers[col].style.display = "none";
+  addToColumn(col);
 }
 
 // Allows arrays to reflect Drap and Drop items
@@ -116,7 +153,6 @@ function rebuildArrays() {
     onHoldListArray.push(onHoldList.children[i].textContent);
   }
   updateDOM();
-  updateSavedColumns();
 }
 
 // When Item Starts Dragging
