@@ -169,40 +169,42 @@ canvas.addEventListener("mouseup", () => {
 });
 
 // // Save to Local Storage
-// saveStorageBtn.addEventListener('click', () => {
-
-//   // Active Tool
-//   activeToolEl.textContent = 'Canvas Saved';
-//   setTimeout(switchToBrush, 1500);
-// });
+saveStorageBtn.addEventListener("click", () => {
+  localStorage.setItem("savedCanvas", JSON.stringify(drawnArray));
+  // Active Tool
+  activeToolEl.textContent = "Canvas Saved";
+  setTimeout(switchToBrush, 1500);
+});
 
 // // Load from Local Storage
-// loadStorageBtn.addEventListener('click', () => {
-//   if (localStorage.) {
-//     drawnArray = JSON(localStorage.);
-
-//   // Active Tool
-//     activeToolEl.textContent = 'Canvas Loaded';
-//     setTimeout(switchToBrush, 1500);
-//   }
-
-// });
+loadStorageBtn.addEventListener("click", () => {
+  if (localStorage.getItem("savedCanvas")) {
+    drawnArray = JSON.parse(localStorage.savedCanvas);
+    restoreCanvas();
+    // Active Tool
+    activeToolEl.textContent = "Canvas Loaded";
+  } else {
+    activeToolEl.textContent = "No Canvas Found";
+  }
+  setTimeout(switchToBrush, 1500);
+});
 
 // // Clear Local Storage
-// clearStorageBtn.addEventListener('click', () => {
-
-//   // Active Tool
-//   activeToolEl.textContent = 'Local Storage Cleared';
-//   setTimeout(switchToBrush, 1500);
-// });
+clearStorageBtn.addEventListener("click", () => {
+  localStorage.removeItem("savedCanvas");
+  // Active Tool
+  activeToolEl.textContent = "Local Storage Cleared";
+  setTimeout(switchToBrush, 1500);
+});
 
 // // Download Image
-// downloadBtn.addEventListener('click', () => {
-
-//   // Active Tool
-//   activeToolEl.textContent = 'Image File Saved';
-//   setTimeout(switchToBrush, 1500);
-// });
+downloadBtn.addEventListener("click", () => {
+  downloadBtn.href = canvas.toDataURL("image/jpeg", 1);
+  downloadBtn.download = "paint-example.jpeg";
+  // Active Tool
+  activeToolEl.textContent = "Image File Saved";
+  setTimeout(switchToBrush, 1500);
+});
 
 // // Event Listener
 brushIcon.addEventListener("click", switchToBrush);
